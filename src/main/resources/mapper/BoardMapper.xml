@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.study.multiboard.domain.board.mapper.BoardMapper">
+
+    <insert id="insertBoard" parameterType="kr.co.study.multiboard.domain.board.model.Board">
+        INSERT INTO board (board_seq, board_name, file_count, comment_status, open_status)
+        VALUES (#{seq}, #{boardName}, #{fileCount}, #{commentStatus}, #{openStatus})
+    </insert>
+
+    <!-- 게시글 단건 조회 -->
+    <select id="selectBoardById" parameterType="java.lang.String" resultType="kr.co.study.multiboard.domain.board.model.Board">
+        SELECT * FROM board WHERE board_seq = #{seq}
+    </select>
+
+    <!-- 모든 게시글 조회 -->
+    <select id="selectAllBoards" resultType="kr.co.study.multiboard.domain.board.model.Board">
+        SELECT * FROM board
+    </select>
+
+    <!-- 게시글 삭제 -->
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE FROM board WHERE board_seq = #{seq}
+    </delete>
+</mapper>
