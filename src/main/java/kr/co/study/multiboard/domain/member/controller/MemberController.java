@@ -15,6 +15,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/")
+    public String ex_main() {
+        return "/tmp/main";
+    }
+
     @GetMapping("/member/login")
     public String signupForm(Model model) {
         model.addAttribute("member", new CreateMemberRequest());
@@ -34,12 +39,5 @@ public class MemberController {
     }
 }
 
-//@Controller
-//public class BoardController {
-//
-////    @GetMapping("/")
-////    public String save() {
-////        return "main";
-////    }
-//}
+
 
