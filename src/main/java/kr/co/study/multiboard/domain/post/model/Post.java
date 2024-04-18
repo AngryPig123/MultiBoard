@@ -1,6 +1,6 @@
 package kr.co.study.multiboard.domain.post.model;
 
-import kr.co.study.multiboard.global.BaseVo;
+import kr.co.study.multiboard.global.base.BaseVo;
 import lombok.Builder;
 import lombok.Getter;
 

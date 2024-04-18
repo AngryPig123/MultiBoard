@@ -2,7 +2,7 @@ package kr.co.study.multiboard.domain.member.model;
 
 import kr.co.study.multiboard.domain.member.model.vo.MemberType;
 import kr.co.study.multiboard.domain.member.model.vo.Password;
-import kr.co.study.multiboard.global.BaseVo;
+import kr.co.study.multiboard.global.base.BaseVo;
 import lombok.Builder;
 import lombok.Getter;
 

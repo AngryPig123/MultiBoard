@@ -1,4 +1,4 @@
-package kr.co.study.multiboard.global;
+package kr.co.study.multiboard.global.base;
 
 import java.time.LocalDateTime;
 
