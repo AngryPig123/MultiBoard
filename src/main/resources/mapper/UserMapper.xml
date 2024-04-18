@@ -9,4 +9,7 @@
         VALUES (#{username}, #{password}, #{role})
     </insert>
 
+    <select id="checkDuplicatedUsername" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT username FROM user u WHERE username = #{username}
+    </select>
 </mapper>

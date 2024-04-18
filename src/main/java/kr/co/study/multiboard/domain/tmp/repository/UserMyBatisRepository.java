@@ -5,6 +5,8 @@ import kr.co.study.multiboard.domain.tmp.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class UserMyBatisRepository implements UserRepository {
@@ -14,5 +16,10 @@ public class UserMyBatisRepository implements UserRepository {
     @Override
     public void save(User user) {
         userMapper.insertUser(user);
+    }
+
+    @Override
+    public Optional<String> existsByUsername(String username) {
+        return userMapper.checkDuplicatedUsername(username);
     }
 }
