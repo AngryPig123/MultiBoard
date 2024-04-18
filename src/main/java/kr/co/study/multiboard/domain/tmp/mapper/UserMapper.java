@@ -10,4 +10,5 @@ public interface UserMapper {
 
     void insertUser(User user);
     Optional<String> checkDuplicatedUsername(String username);
+    Optional<User> selectUsername(String username);
 }

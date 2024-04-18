@@ -16,7 +16,7 @@ public class UserDtoMapper {
         return User.builder()
                 .username(joinDto.getUsername())
                 .password(passwordEncoder.encode(joinDto.getPassword()))
-                .role("ROLE_USER")
+                .role("ROLE_ADMIN")
                 .build();
     }
 }

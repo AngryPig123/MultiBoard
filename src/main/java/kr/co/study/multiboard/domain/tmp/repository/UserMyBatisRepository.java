@@ -19,7 +19,12 @@ public class UserMyBatisRepository implements UserRepository {
     }
 
     @Override
-    public Optional<String> existsByUsername(String username) {
+    public Optional<String> findDuplicatedUsername(String username) {
         return userMapper.checkDuplicatedUsername(username);
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userMapper.selectUsername(username);
     }
 }

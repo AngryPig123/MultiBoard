@@ -12,4 +12,8 @@
     <select id="checkDuplicatedUsername" parameterType="java.lang.String" resultType="java.lang.String">
         SELECT username FROM user u WHERE username = #{username}
     </select>
+
+    <select id="selectUsername" parameterType="java.lang.String" resultType="kr.co.study.multiboard.domain.tmp.domain.User">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
 </mapper>
