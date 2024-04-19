@@ -3,7 +3,9 @@ package kr.co.study.multiboard.domain.tmp.controller;
 import kr.co.study.multiboard.domain.tmp.dto.CreateUserJoinDto;
 import kr.co.study.multiboard.domain.tmp.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -14,7 +16,21 @@ public class UserController {
     private final UserService tmpService;
 
     @GetMapping("/")
-    public String ex_mainPage() {
+    public String ex_mainPage(Model model) {
+
+        // 서비스 레이어에 작성
+        String id = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+        String role = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .iterator()
+                .next()
+                .getAuthority();
+
+        model.addAttribute("id", id);
+        model.addAttribute("role", role);
         return "/tmp/main";
     }
 
