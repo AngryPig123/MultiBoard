@@ -13,6 +13,11 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    @GetMapping("/")
+    public String boardMain(Model model) {
+        return "/board/mainPage";
+    }
+
     @GetMapping("/board/new")
     public String boardForm(Model model) {
         model.addAttribute("board", new CreateBoardRequest());

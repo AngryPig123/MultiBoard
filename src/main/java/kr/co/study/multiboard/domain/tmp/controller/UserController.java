@@ -15,24 +15,24 @@ public class UserController {
 
     private final UserService tmpService;
 
-    @GetMapping("/")
-    public String ex_mainPage(Model model) {
-
-        // 서비스 레이어에 작성
-        String id = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getName();
-        String role = SecurityContextHolder.getContext()
-                .getAuthentication()
-                .getAuthorities()
-                .iterator()
-                .next()
-                .getAuthority();
-
-        model.addAttribute("id", id);
-        model.addAttribute("role", role);
-        return "/tmp/main";
-    }
+//    @GetMapping("/")
+//    public String ex_mainPage(Model model) {
+//
+//        // 서비스 레이어에 작성
+//        String id = SecurityContextHolder.getContext()
+//                .getAuthentication()
+//                .getName();
+//        String role = SecurityContextHolder.getContext()
+//                .getAuthentication()
+//                .getAuthorities()
+//                .iterator()
+//                .next()
+//                .getAuthority();
+//
+//        model.addAttribute("id", id);
+//        model.addAttribute("role", role);
+//        return "/tmp/main";
+//    }
 
     @GetMapping("/admin")
     public String ex_adminPage() {
