@@ -4,6 +4,12 @@
 
 <mapper namespace="kr.co.study.multiboard.domain.member.mapper.MemberMapper">
 
+    <insert id="insertMember" parameterType="kr.co.study.multiboard.domain.member.model.Member">
+        INSERT INTO member (id, password, role)
+        VALUES (#{memberId}, #{password}, #{memberType})
+    </insert>
 
-
+    <select id="existsByMemberId" resultType="boolean" parameterType="java.lang.String">
+        SELECT COUNT(*) > 0 FROM member WHERE id = #{memberId}
+    </select>
 </mapper>

@@ -9,6 +9,7 @@
     <title>Ragister</title>
     <meta name="description" content="">
     <meta name="keywords" content="">
+    <meta name="_csrf" content="${_csrf.token}"/>
     <link type="text/css" rel="stylesheet" href="../css/style.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -19,38 +20,81 @@
 <body>
 <div class="register">
     <div class="mem_copy">필수 입력사항입니다.</div>
-    <table class="register_type">
-        <colgroup>
-            <col width="14%">
-            <col width="*">
-        </colgroup>
-        <tbody>
-        <tr>
-            <th><span>회원ID</span></th>
-            <td><input type="text" placeholder="아이디를 입력해주세요" style="width:500px;"><button class="button_type memberegister ml5">중복확인</button></td>
-        </tr>
-        <tr>
-            <th><span>비밀번호</span></th>
-            <td><input type="text" placeholder="비밀번호를 입력해주세요" style="width:500px;"></td>
-        </tr>
-        <tr>
-            <th><span>비밀번호확인</span></th>
-            <td><input type="text" placeholder="" style="width:500px;"></td>
-        </tr>
-        <tr>
-            <th><span>회원유형</span></th>
-            <td>
-                <select id="" name="" style="width:500px;">
-                    <option value="">관리자</option>
-                    <option value="">일반 회원</option>
-                </select>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="buttonframe">
-        <button class="custom-btn btn-ani3 btenw"><span>등록</span></button>
-    </div>
+    <form action="/member/signup" method="post">
+        <table class="register_type">
+            <colgroup>
+                <col width="14%">
+                <col width="*">
+            </colgroup>
+            <tbody>
+            <tr>
+                <th><span>회원ID</span></th>
+                <td><input type="text" name="memberId" id="memberId" placeholder="아이디를 입력해주세요" style="width:500px;"><button class="button_type memberegister ml5" onclick="checkDuplicate()">중복확인</button></td>
+            </tr>
+            <tr>
+                <th><span>비밀번호</span></th>
+                <td><input type="text" name="password" placeholder="비밀번호를 입력해주세요" style="width:500px;"></td>
+            </tr>
+            <tr>
+                <th><span>비밀번호확인</span></th>
+                <td><input type="text" name="confirmPassword" placeholder="" style="width:500px;"></td>
+            </tr>
+            <tr>
+                <th><span>회원유형</span></th>
+                <td>
+                    <select name="memberType" style="width:500px;">
+                        <option value="admin">관리자</option>
+                        <option value="member">일반 회원</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="buttonframe">
+            <button type="submit" class="custom-btn btn-ani3 btenw"><span>등록</span></button>
+        </div>
+    </form>
 </div>
+
+<script>
+    function checkDuplicate() {
+        console.log(memberId);
+        var memberId = document.getElementById("memberId").value;
+        if (!memberId) {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        var csrfToken = $("meta[name='_csrf']").attr("content");
+        $.ajaxPrefilter(function(options, originalOptions, jqXHR){
+            if (options['type'].toLowerCase() === "post") {
+                jqXHR.setRequestHeader('X-CSRF-TOKEN', csrfToken);
+            }
+        });
+
+        // AJAX를 사용하여 서버로 중복 확인 요청을 보냄
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/member/checkDuplicate?memberId=" + memberId, true);
+        xhr.onreadystatechange = function() {
+            console.log(xhr);
+
+            // if (xhr.readyState === 4) {
+            //     console.log("status: " + xhr.status);
+            //     alert("status: " + xhr.status);
+            //     if (xhr.status === 200) {
+            //         var isDuplicate = JSON.parse(xhr.responseText);
+            //         if (isDuplicate) {
+            //             alert("이미 사용 중인 아이디입니다.");
+            //         } else {
+            //             alert("사용 가능한 아이디입니다.");
+            //         }
+            //     } else {
+            //         alert("서버 오류가 발생했습니다.");
+            //     }
+            // }
+        };
+       // xhr.send();
+    }
+</script>
 </body>
 </html>

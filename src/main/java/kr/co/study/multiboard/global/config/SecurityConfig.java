@@ -19,7 +19,7 @@ public class SecurityConfig {
          */
         http    // 우선 순위가 가장 높은 건 가장 상단에 적어야 함(아래에 작성해도 적용X)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/join", "/joinProc").permitAll() // permitAll : 모든 사용자에게 접근
+                        .requestMatchers("/", "/login", "/join", "/joinProc", "/member/**", "/member/checkDuplicate").permitAll() // permitAll : 모든 사용자에게 접근
                         .requestMatchers("/admin").hasRole("ADMIN") // 로그인한 사용자 중 Role 이 ADMIN일 경우 접근 허용
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 로그인한 사용자 중 여러 Role 설정
                         .requestMatchers("/","/css/**","/scripts/**","/plugin/**","/fonts/**").permitAll()
