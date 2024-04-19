@@ -22,6 +22,7 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/join", "/joinProc").permitAll() // permitAll : 모든 사용자에게 접근
                         .requestMatchers("/admin").hasRole("ADMIN") // 로그인한 사용자 중 Role 이 ADMIN일 경우 접근 허용
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 로그인한 사용자 중 여러 Role 설정
+                        .requestMatchers("/","/css/**","/scripts/**","/plugin/**","/fonts/**").permitAll()
                         .anyRequest().authenticated()   // anyRequest : 처리하지 못한 모든 경로, authenticated : 로그인한 사용자만 접근 가능
                 );
 
@@ -30,7 +31,7 @@ public class SecurityConfig {
          */
         http
                 .formLogin(auth -> auth
-                        .loginPage("/login")    // 사용자가 URL를 멋대로 변경하여도 loginPage 설정을 해두면 Spring Security가 login 페이지로 redirect
+                        .loginPage("/member/login")    // 사용자가 URL를 멋대로 변경하여도 loginPage 설정을 해두면 Spring Security가 login 페이지로 redirect
                         .loginProcessingUrl("/loginProc") // ?
                         .permitAll()    // permitAll : 모든 사용자에게 접근
                 );
@@ -43,6 +44,7 @@ public class SecurityConfig {
                 .csrf(auth -> auth.disable());
 
         return http.build();
+
     }
 
     @Bean
