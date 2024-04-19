@@ -20,7 +20,8 @@
 <body>
 <div class="register">
     <div class="mem_copy">필수 입력사항입니다.</div>
-    <form action="/member/signup" method="post">
+
+    <form action="/member/signup" method="post" onsubmit="return false">
         <table class="register_type">
             <colgroup>
                 <col width="14%">
@@ -51,7 +52,8 @@
             </tbody>
         </table>
         <div class="buttonframe">
-            <button type="submit" class="custom-btn btn-ani3 btenw"><span>등록</span></button>
+<!--            <button type="submit" class="custom-btn btn-ani3 btenw"><span>등록</span></button>-->
+            <button type="submit" class="custom-btn btn-ani3 btenw" onsubmit="return true"><span>등록</span></button>
         </div>
     </form>
 </div>
@@ -65,35 +67,28 @@
             return;
         }
 
-        var csrfToken = $("meta[name='_csrf']").attr("content");
-        $.ajaxPrefilter(function(options, originalOptions, jqXHR){
-            if (options['type'].toLowerCase() === "post") {
-                jqXHR.setRequestHeader('X-CSRF-TOKEN', csrfToken);
-            }
-        });
-
         // AJAX를 사용하여 서버로 중복 확인 요청을 보냄
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/member/checkDuplicate?memberId=" + memberId, true);
         xhr.onreadystatechange = function() {
             console.log(xhr);
 
-            // if (xhr.readyState === 4) {
-            //     console.log("status: " + xhr.status);
-            //     alert("status: " + xhr.status);
-            //     if (xhr.status === 200) {
-            //         var isDuplicate = JSON.parse(xhr.responseText);
-            //         if (isDuplicate) {
-            //             alert("이미 사용 중인 아이디입니다.");
-            //         } else {
-            //             alert("사용 가능한 아이디입니다.");
-            //         }
-            //     } else {
-            //         alert("서버 오류가 발생했습니다.");
-            //     }
-            // }
+            if (xhr.readyState === 4) {
+                console.log("status: " + xhr.status);
+                alert("status: " + xhr.status);
+                if (xhr.status === 200) {
+                    var isDuplicate = JSON.parse(xhr.responseText);
+                    if (isDuplicate) {
+                        alert("이미 사용 중인 아이디입니다.");
+                    } else {
+                        alert("사용 가능한 아이디입니다.");
+                    }
+                } else {
+                    alert("서버 오류가 발생했습니다.");
+                }
+            }
         };
-       // xhr.send();
+       xhr.send();
     }
 </script>
 </body>
