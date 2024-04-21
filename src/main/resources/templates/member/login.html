@@ -22,16 +22,30 @@
         <div class="loginframe">
             <div class="logininbx">
                 <h1>LOGIN</h1>
-                <ul>
-                    <li><label for="id">Member ID</label><input type="text" id="id" class="block"></li>
-                    <li><label for="pwd">Password</label><input type="text" id="pwd" class="block"></li>
-                    <!-- <li><input type="checkbox" id="remember"><label for="remember">Remember me</label><span><a href="#a">Forgot Password</a></span></li> -->
-                </ul>
-                <div class="btnbox"><button class="custom-btn btn-ani1"><span>Login</span></button><button class="custom-btn btn-ani1"><span>Register</span></button></div>
+                <form id="loginForm" action="/member/login" method="post">
+                    <ul>
+                        <li><label for="memberId">Member ID</label><input type="text" id="memberId" name="memberId" class="block"></li>
+                        <li><label for="password">Password</label><input type="password" id="password" name="password" class="block"></li>
+                    </ul>
+                    <div class="btnbox">
+                        <button type="button" class="custom-btn btn-ani1" onclick="login()">Login</button>
+                        <button type="button" class="custom-btn btn-ani1" onclick="redirectToRegisterPage()">Register</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
-</body>
 
+<script>
+    function login() {
+        var form = document.getElementById("loginForm");
+        form.submit();
+    }
+
+    function redirectToRegisterPage() {
+        window.location.href = "signupForm.html"; // 회원가입 페이지로 이동
+    }
+</script>
+</body>
 </html>

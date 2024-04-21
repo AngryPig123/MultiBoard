@@ -22,4 +22,9 @@ public class MemberMyBatisRepository implements MemberRepository {
     public boolean existsByMemberId(String memberId) {
         return memberMapper.existsByMemberId(memberId);
     }
+
+    @Override
+    public Member findByMember(String memberId, String password) {
+        return memberMapper.findByMember(memberId, password);
+    }
 }

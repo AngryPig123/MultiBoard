@@ -17,6 +17,9 @@ public class Member extends BaseVo {
     public Member(String memberId, String password, String memberType) {
         this.memberId = memberId;
         this.password = password;
+        System.out.println("memberId : " + memberId);
+        System.out.println("password : " + password);
+        System.out.println("memberType : " + memberType);
         this.memberType = MemberType.of(memberType);
     }
 

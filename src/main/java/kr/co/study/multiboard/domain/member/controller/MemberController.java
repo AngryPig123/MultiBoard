@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
+import javax.swing.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -24,6 +25,15 @@ public class MemberController {
     @GetMapping("/member/login")
     public String signupForm(Model model) {
         model.addAttribute("member", new CreateMemberRequest());
+        return "/member/login";
+    }
+
+    @PostMapping("/member/login")
+    public String signupForm(@RequestParam("memberId") String memberId,
+                            @RequestParam("password") String password) {
+
+        Member member = memberService.login(memberId, password);
+        System.out.println("member id : " + member.getMemberId() + " password : " + member.getPassword() + " memberType : " + member.getMemberType());
         return "/member/login";
     }
 
@@ -40,19 +50,24 @@ public class MemberController {
                          @RequestParam("memberType") String memberType) {
 
         // 비밀번호 검증
-        if(!password.equals(confirmPassword)) {
-            return "redirect:/member/signup";
-        }
+        if(memberId.isBlank() || memberId.isEmpty()) return "redirect:/";
+        if(password.isBlank() || password.isEmpty()) return "redirect:/";
+        if(confirmPassword.isBlank() || confirmPassword.isEmpty()) return "redirect:/";
+        if(memberType.isBlank() || memberType.isEmpty()) return "redirect:/";
+        if(checkDuplicate(memberId)) return "redirect:/";
 
         memberService.signUp(memberId, password, memberType);
         System.out.println("서비스 완료");
 //        return "redirect:/member/login";
-        return "/member/signupForm";
+        return "redirect:/";
     }
+
     @ResponseBody
     @GetMapping("/member/checkDuplicate")
     public boolean checkDuplicate(@RequestParam("memberId") String memberId) {
-        System.out.println("여긴 오나요?");
-        return memberService.isMemberIdExists(memberId);
+        System.out.println("MemberController.checkDuplicate [memberId] : " + memberId);
+        boolean result = memberService.isMemberIdExists(memberId);
+        System.out.println("memberId 중복 결과 = " + result);
+        return result;
     }
 }

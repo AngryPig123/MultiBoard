@@ -20,6 +20,14 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional(readOnly = true)
+    public Member login(String memberId, String password) {
+        System.out.println("member 로그인 서비스");
+        Member member = memberRepository.findByMember(memberId, password);
+        System.out.println("member 정보 : " + member.getMemberId() + ", " + member.getPassword() + ", " + member.getMemberType());
+        return member;
+    }
+
     private static Member getMember(String memberId, String password, String memberType) {
         return Member.builder()
                 .memberId(memberId)

@@ -11,7 +11,6 @@
     <meta name="keywords" content="">
     <meta name="_csrf" content="${_csrf.token}"/>
     <link type="text/css" rel="stylesheet" href="../css/style.css">
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -21,7 +20,7 @@
 <div class="register">
     <div class="mem_copy">필수 입력사항입니다.</div>
 
-    <form action="/member/signup" method="post" onsubmit="return false">
+    <form id="registrationForm" action="/member/signup" method="post">
         <table class="register_type">
             <colgroup>
                 <col width="14%">
@@ -44,38 +43,31 @@
                 <th><span>회원유형</span></th>
                 <td>
                     <select name="memberType" style="width:500px;">
-                        <option value="admin">관리자</option>
-                        <option value="member">일반 회원</option>
+                        <option value="ROLE_ADMIN">관리자</option>
+                        <option value="ROLE_MEMBER">일반 회원</option>
                     </select>
                 </td>
             </tr>
             </tbody>
         </table>
         <div class="buttonframe">
-<!--            <button type="submit" class="custom-btn btn-ani3 btenw"><span>등록</span></button>-->
-            <button type="submit" class="custom-btn btn-ani3 btenw" onsubmit="return true"><span>등록</span></button>
+            <button type="button" class="custom-btn btn-ani3 btenw" onclick="submitForm()"><span>등록</span></button>
         </div>
     </form>
 </div>
 
 <script>
     function checkDuplicate() {
-        console.log(memberId);
         var memberId = document.getElementById("memberId").value;
         if (!memberId) {
             alert("아이디를 입력해주세요.");
             return;
         }
 
-        // AJAX를 사용하여 서버로 중복 확인 요청을 보냄
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/member/checkDuplicate?memberId=" + memberId, true);
         xhr.onreadystatechange = function() {
-            console.log(xhr);
-
             if (xhr.readyState === 4) {
-                console.log("status: " + xhr.status);
-                alert("status: " + xhr.status);
                 if (xhr.status === 200) {
                     var isDuplicate = JSON.parse(xhr.responseText);
                     if (isDuplicate) {
@@ -88,7 +80,52 @@
                 }
             }
         };
-       xhr.send();
+        xhr.send();
+    }
+
+    function submitForm() {
+        var memberId = document.getElementById("memberId").value;
+        if (!memberId) {
+            alert("아이디를 입력해주세요.");
+            return;
+        }
+
+        var password = document.getElementsByName("password")[0].value;
+        var confirmPassword = document.getElementsByName("confirmPassword")[0].value;
+        if (!password || !confirmPassword) {
+            alert("비밀번호를 입력해주세요.");
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+        }
+
+        var isDuplicate = confirmDuplicate(memberId); // 중복 확인
+        if (!isDuplicate) {
+            // 중복이 아닌 경우에만 회원 가입 처리
+            document.getElementById("registrationForm").submit();
+        }
+    }
+
+    function confirmDuplicate(memberId) {
+        // 이 함수는 중복 확인만 수행하고 결과를 반환합니다.
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/member/checkDuplicate?memberId=" + memberId, false); // 동기적 요청
+        xhr.send();
+        if (xhr.status === 200) {
+            var isDuplicate = JSON.parse(xhr.responseText);
+            if (isDuplicate) {
+                alert("이미 사용 중인 아이디입니다.");
+                return true; // 중복됨
+            } else {
+                alert("사용 가능한 아이디입니다.");
+                return false; // 중복되지 않음
+            }
+        } else {
+            alert("서버 오류가 발생했습니다.");
+            return true; // 중복 확인 실패로 처리
+        }
     }
 </script>
 </body>
