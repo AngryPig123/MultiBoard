@@ -5,8 +5,9 @@ import lombok.Builder;
 @Builder
 public class BoardSingleResponse {
 
-	private String boardNum;
+	private int seq;
 	private String boardName;
+	private String boardType;
 	private int fileCount;
 	private Boolean commentStatus;
 	private Boolean openStatus;

@@ -19,8 +19,8 @@ public class SecurityConfig {
          */
         http    // 우선 순위가 가장 높은 건 가장 상단에 적어야 함(아래에 작성해도 적용X)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/join", "/joinProc", "/member/**", "/member/checkDuplicate").permitAll() // permitAll : 모든 사용자에게 접근
-                        .requestMatchers("/admin").hasRole("ADMIN") // 로그인한 사용자 중 Role 이 ADMIN일 경우 접근 허용
+                        .requestMatchers("/", "/login", "/join", "/joinProc", "/logout", "/member/**", "/member/checkDuplicate").permitAll() // permitAll : 모든 사용자에게 접근
+                        .requestMatchers("/board/new", "/board").hasRole("ADMIN") // 로그인한 사용자 중 Role 이 ADMIN일 경우 접근 허용
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 로그인한 사용자 중 여러 Role 설정
                         .requestMatchers("/","/css/**","/scripts/**","/plugin/**","/fonts/**").permitAll()
                         .anyRequest().authenticated()   // anyRequest : 처리하지 못한 모든 경로, authenticated : 로그인한 사용자만 접근 가능
@@ -29,12 +29,19 @@ public class SecurityConfig {
         /*
          *  로그인 페이지에 대한 자동 작업
          */
+//        http
+//                .formLogin(auth -> auth
+//                        .loginPage("/member/login")    // 사용자가 URL를 멋대로 변경하여도 loginPage 설정을 해두면 Spring Security가 login 페이지로 redirect
+//                        .loginProcessingUrl("/loginProc") // ?
+//                        .permitAll()    // permitAll : 모든 사용자에게 접근
+//                );
+
         http
-                .formLogin(auth -> auth
-                        .loginPage("/member/login")    // 사용자가 URL를 멋대로 변경하여도 loginPage 설정을 해두면 Spring Security가 login 페이지로 redirect
-                        .loginProcessingUrl("/loginProc") // ?
-                        .permitAll()    // permitAll : 모든 사용자에게 접근
-                );
+                .logout()
+                .logoutUrl("/logout") // 로그아웃 요청 처리 URL 지정
+                .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트할 URL 지정
+                .invalidateHttpSession(true) // HTTP 세션 무효화 여부 설정
+                .deleteCookies("JSESSIONID"); // 지정된 쿠키 삭제
 
         /*
          * csrf 설정

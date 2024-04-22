@@ -7,9 +7,10 @@ import java.util.NoSuchElementException;
 
 @Getter
 public enum MemberType {
+    ADMIN("ADMIN"),
 
-    ROLE_ADMIN("ROLE_ADMIN"),
-    ROLE_MEMBER("ROLE_MEMBER");
+//    ROLE_ADMIN("ROLE_ADMIN"),
+    MEMBER("MEMBER");
 
     private final String value;
 

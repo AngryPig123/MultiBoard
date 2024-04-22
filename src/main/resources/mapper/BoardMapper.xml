@@ -6,8 +6,8 @@
 <mapper namespace="kr.co.study.multiboard.domain.board.mapper.BoardMapper">
 
     <insert id="insertBoard" parameterType="kr.co.study.multiboard.domain.board.model.Board">
-        INSERT INTO board (board_seq, board_name, file_count, comment_status, open_status)
-        VALUES (#{seq}, #{boardName}, #{fileCount}, #{commentStatus}, #{openStatus})
+        INSERT INTO board (board_name, board_type, file_count, comment_status, open_status)
+        VALUES (#{boardName}, #{boardType}, #{fileCount}, #{commentStatus}, #{openStatus})
     </insert>
 
     <!-- 게시글 단건 조회 -->

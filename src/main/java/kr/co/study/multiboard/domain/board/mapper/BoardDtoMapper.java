@@ -6,24 +6,24 @@ import kr.co.study.multiboard.domain.board.model.Board;
 
 public class BoardDtoMapper {
 
-	public static Board toBoard(String seq, CreateBoardRequest request) {
+    public static Board toBoard(CreateBoardRequest request) {
 
-		return Board.builder()
-				.seq(seq)
-				.boardName(request.getBoardName())
-				.fileCount(request.getFileCount())
-				.commentStatus(request.getCommentStatus())
-				.openStatus(request.getOpenStatus())
-				.build();
-	}
+        return Board.builder()
+                .boardName(request.getBoardName())
+                .fileCount(request.getFileCount())
+                .commentStatus(request.getCommentStatus())
+                .openStatus(request.getOpenStatus())
+                .build();
+    }
 
-	public static BoardSingleResponse toBoardSingleResponse(Board board) {
-		return BoardSingleResponse.builder()
-			.boardNum(board.getSeq())
-			.boardName(board.getBoardName())
-			.fileCount(board.getFileCount())
-			.commentStatus(board.getCommentStatus())
-			.openStatus(board.getOpenStatus())
-			.build();
-	}
+    public static BoardSingleResponse toBoardSingleResponse(Board board) {
+        return BoardSingleResponse.builder()
+                .seq(board.getSeq())
+                .boardType(board.getBoardType().toString())
+                .boardName(board.getName())
+                .fileCount(board.getFileCount())
+                .commentStatus(board.getCommentStatus())
+                .openStatus(board.getOpenStatus())
+                .build();
+    }
 }

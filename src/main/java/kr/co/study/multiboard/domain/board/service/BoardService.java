@@ -21,11 +21,9 @@ public class BoardService {
 
     @Transactional
     public void createBoard(CreateBoardRequest request) {
-        String seq = generatedBoardSequence();
-        Board board = BoardDtoMapper.toBoard(seq, request);
+        Board board = BoardDtoMapper.toBoard(request);
         boardRepository.insert(board);
     }
-
 
     public BoardSingleResponse getBoardById(String boardId) {
         Board board = boardRepository.findById(boardId)
@@ -43,9 +41,4 @@ public class BoardService {
         boardRepository.deleteById(boardId);
     }
 
-    private static String generatedBoardSequence() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        return new String(array, StandardCharsets.UTF_8);
-    }
 }
