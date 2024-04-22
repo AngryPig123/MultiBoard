@@ -42,10 +42,13 @@ public class MemberController {
     }
 
     @PostMapping("/member/signup")
-    public String signup(@RequestParam("memberId") String memberId,
-                         @RequestParam("password") String password,
-                         @RequestParam("confirmPassword") String confirmPassword,
-                         @RequestParam("memberType") String memberType) {
+    public String signup(
+            @RequestParam("memberId") String memberId,
+            @RequestParam("password") String password,
+            @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("memberType") String memberType
+    ) {
+
 
 //        if(memberId.isBlank() || memberId.isEmpty()) return "redirect:/";
 //        if(password.isBlank() || password.isEmpty()) return "redirect:/";

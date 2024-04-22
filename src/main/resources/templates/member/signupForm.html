@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="format-detection" content="email=no">
     <title>Ragister</title>
@@ -29,7 +30,9 @@
             <tbody>
             <tr>
                 <th><span>회원ID</span></th>
-                <td><input type="text" name="memberId" id="memberId" placeholder="아이디를 입력해주세요" style="width:500px;"><button class="button_type memberegister ml5" onclick="checkDuplicate()">중복확인</button></td>
+                <td><input type="text" name="memberId" id="memberId" placeholder="아이디를 입력해주세요" style="width:500px;">
+                    <button class="button_type memberegister ml5" onclick="checkDuplicate()">중복확인</button>
+                </td>
             </tr>
             <tr>
                 <th><span>비밀번호</span></th>
@@ -58,6 +61,7 @@
 
 <script>
     function checkDuplicate() {
+
         var memberId = document.getElementById("memberId").value;
         if (!memberId) {
             alert("아이디를 입력해주세요.");
@@ -66,7 +70,7 @@
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "/member/checkDuplicate?memberId=" + memberId, true);
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
                 if (xhr.status === 200) {
                     var isDuplicate = JSON.parse(xhr.responseText);
