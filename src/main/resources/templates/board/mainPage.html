@@ -74,6 +74,7 @@
 <div id="guide_header_wrap">
     <div id="guide_header">
         <h1>교육용 화면 리스트</h1>
+        <p th:if="${session.memberId}">안녕하세요. <span th:text="${session.memberId}"></span> 회원님!</p>
     </div>
     <div id="guide_body">
         <div class="contents">

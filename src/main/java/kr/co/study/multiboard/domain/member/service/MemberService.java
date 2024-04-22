@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -22,10 +23,8 @@ public class MemberService {
 
     @Transactional(readOnly = true)
     public Member login(String memberId, String password) {
-        System.out.println("member 로그인 서비스");
-        Member member = memberRepository.findByMember(memberId, password);
-        System.out.println("member 정보 : " + member.getMemberId() + ", " + member.getPassword() + ", " + member.getMemberType());
-        return member;
+        return memberRepository.findByMember(memberId, password)
+                .orElseThrow(NoSuchElementException::new);
     }
 
     private static Member getMember(String memberId, String password, String memberType) {
@@ -37,8 +36,6 @@ public class MemberService {
     }
 
     public boolean isMemberIdExists(String memberId) {
-        // memberId가 이미 존재하는지 확인하는 로직을 구현합니다.
-        // 존재하면 true를 반환하고, 존재하지 않으면 false를 반환합니다.
         return memberRepository.existsByMemberId(memberId);
     }
 }

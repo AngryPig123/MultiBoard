@@ -15,12 +15,27 @@ public class Member extends BaseVo {
 
     @Builder
     public Member(String memberId, String password, String memberType) {
+        System.out.println("seq 제외한 Member 생성자");
         this.memberId = memberId;
         this.password = password;
+        this.memberType = MemberType.of(memberType);
         System.out.println("memberId : " + memberId);
         System.out.println("password : " + password);
         System.out.println("memberType : " + memberType);
+        System.out.println("===============================");
+    }
+
+    @Builder
+    public Member(int seq, String memberId, String password, String memberType) {
+        System.out.println("seq 포함한 Member 생성자");
+        this.seq = seq;
+        this.memberId = memberId;
+        this.password = password;
         this.memberType = MemberType.of(memberType);
+        System.out.println("memberId : " + memberId);
+        System.out.println("password : " + password);
+        System.out.println("memberType : " + memberType);
+        System.out.println("===============================");
     }
 
     /**

@@ -1,6 +1,6 @@
 package kr.co.study.multiboard.domain.member.controller;
 
-import kr.co.study.multiboard.domain.member.model.Member;
+import jakarta.servlet.http.HttpSession;
 import kr.co.study.multiboard.domain.member.dto.CreateMemberRequest;
 import kr.co.study.multiboard.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -10,11 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
-
-import javax.swing.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,22 +19,25 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/member/login")
-    public String signupForm(Model model) {
+    public String loginForm(Model model) {
         model.addAttribute("member", new CreateMemberRequest());
         return "/member/login";
     }
 
     @PostMapping("/member/login")
-    public String signupForm(@RequestParam("memberId") String memberId,
-                            @RequestParam("password") String password) {
+    public String login(@RequestParam("memberId") String memberId,
+                        @RequestParam("password") String password,
+                        HttpSession session) {
 
-        Member member = memberService.login(memberId, password);
-        System.out.println("member id : " + member.getMemberId() + " password : " + member.getPassword() + " memberType : " + member.getMemberType());
-        return "/member/login";
+        if(memberService.login(memberId, password) != null) {
+            session.setAttribute("memberId", memberId);
+            return "redirect:/";
+        }
+        return "redirect:/login?error";
     }
 
     @GetMapping("/member/signup")
-    public String registerForm(Model model) {
+    public String signupForm(Model model) {
         model.addAttribute("member", new CreateMemberRequest());
         return "/member/signupForm";
     }
@@ -49,16 +48,12 @@ public class MemberController {
                          @RequestParam("confirmPassword") String confirmPassword,
                          @RequestParam("memberType") String memberType) {
 
-        // 비밀번호 검증
         if(memberId.isBlank() || memberId.isEmpty()) return "redirect:/";
         if(password.isBlank() || password.isEmpty()) return "redirect:/";
         if(confirmPassword.isBlank() || confirmPassword.isEmpty()) return "redirect:/";
         if(memberType.isBlank() || memberType.isEmpty()) return "redirect:/";
-        if(checkDuplicate(memberId)) return "redirect:/";
 
         memberService.signUp(memberId, password, memberType);
-        System.out.println("서비스 완료");
-//        return "redirect:/member/login";
         return "redirect:/";
     }
 

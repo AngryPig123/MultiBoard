@@ -3,9 +3,7 @@ package kr.co.study.multiboard.domain.tmp.controller;
 import kr.co.study.multiboard.domain.tmp.dto.CreateUserJoinDto;
 import kr.co.study.multiboard.domain.tmp.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
