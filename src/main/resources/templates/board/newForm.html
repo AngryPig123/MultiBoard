@@ -23,9 +23,9 @@
         <nav>
             <h2><i class="fas fa-edit mr10"></i>게시판 생성</h2>
             <ul>
-                <li th:each="board : ${boards}">
+                <li th:each="board : ${board}">
                     <a th:href="@{'/board/' + ${board.seq}}"><i class="fa-regular fa-address-book mr10"></i><span
-                            th:text="${board.name}"></span></a>
+                            th:text="${board.boardName}"></span></a>
                 </li>
             </ul>
         </nav>
@@ -42,16 +42,16 @@
                             <tbody>
                             <tr>
                                 <th>게시판명</th>
-                                <td><input type="text" th:field="*{name}" placeholder="게시판 이름을 입력해주세요"
+                                <td><input type="text" th:field="*{boardName}" placeholder="게시판 이름을 입력해주세요"
                                            style="width:500px;"></td>
                             </tr>
                             <tr>
-                                <th>게시판 타입</th>
-                                <td>
-                                    <select th:field="*{boardType}" style="width:500px;">
-                                        <option value="list">리스트형</option>
-                                    </select>
-                                </td>
+<!--                                <th>게시판 타입</th>-->
+<!--                                <td>-->
+<!--                                    <select th:field="*{boardType}" style="width:500px;">-->
+<!--                                        <option value="list">리스트형</option>-->
+<!--                                    </select>-->
+<!--                                </td>-->
                             </tr>
                             <tr>
                                 <th>첨부파일갯수</th>

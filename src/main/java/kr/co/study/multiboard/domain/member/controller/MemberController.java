@@ -2,7 +2,6 @@ package kr.co.study.multiboard.domain.member.controller;
 
 import jakarta.servlet.http.HttpSession;
 import kr.co.study.multiboard.domain.member.dto.CreateMemberRequest;
-import kr.co.study.multiboard.domain.member.model.Member;
 import kr.co.study.multiboard.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,14 +26,12 @@ public class MemberController {
 
     @PostMapping("/member/login")
     public String login(@RequestParam("memberId") String memberId,
-                        @RequestParam("password") String password,
-                        HttpSession session) {
+                        @RequestParam("password") String password
+    ) {
 
         // 로그인 처리
-        Member loggedInMember = memberService.login(memberId, password);
+        memberService.login(memberId, password);
 
-        // 세션에 로그인 정보 저장
-        session.setAttribute("loggedInMemberId", loggedInMember.getMemberId());
         return "redirect:/";
     }
 
@@ -50,10 +47,10 @@ public class MemberController {
                          @RequestParam("confirmPassword") String confirmPassword,
                          @RequestParam("memberType") String memberType) {
 
-        if(memberId.isBlank() || memberId.isEmpty()) return "redirect:/";
-        if(password.isBlank() || password.isEmpty()) return "redirect:/";
-        if(confirmPassword.isBlank() || confirmPassword.isEmpty()) return "redirect:/";
-        if(memberType.isBlank() || memberType.isEmpty()) return "redirect:/";
+//        if(memberId.isBlank() || memberId.isEmpty()) return "redirect:/";
+//        if(password.isBlank() || password.isEmpty()) return "redirect:/";
+//        if(confirmPassword.isBlank() || confirmPassword.isEmpty()) return "redirect:/";
+//        if(memberType.isBlank() || memberType.isEmpty()) return "redirect:/";
 
         memberService.signUp(memberId, password, memberType);
         return "redirect:/";
@@ -77,4 +74,5 @@ public class MemberController {
         System.out.println("memberId 중복 결과 = " + result);
         return result;
     }
+
 }

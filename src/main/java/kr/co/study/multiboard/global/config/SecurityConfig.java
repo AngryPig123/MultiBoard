@@ -1,63 +1,64 @@
 package kr.co.study.multiboard.global.config;
 
+import kr.co.study.multiboard.domain.tmp.service.CustomUserProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomUserProvider customUserProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-
         /*
          *  특정 경로에 대한 인가 작업
+                .authenticationProvider(customUserProvider)
          */
         http    // 우선 순위가 가장 높은 건 가장 상단에 적어야 함(아래에 작성해도 적용X)
+                .authenticationProvider(customUserProvider)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/join", "/joinProc", "/logout", "/member/**", "/member/checkDuplicate").permitAll() // permitAll : 모든 사용자에게 접근
+                        .requestMatchers("/", "/css/**", "/scripts/**", "/plugin/**", "/fonts/**").permitAll()
+                        .requestMatchers("/member/signup", "/member/login").permitAll()
                         .requestMatchers("/board/new", "/board").hasRole("ADMIN") // 로그인한 사용자 중 Role 이 ADMIN일 경우 접근 허용
                         .requestMatchers("/my/**").hasAnyRole("ADMIN", "USER") // 로그인한 사용자 중 여러 Role 설정
-                        .requestMatchers("/","/css/**","/scripts/**","/plugin/**","/fonts/**").permitAll()
                         .anyRequest().authenticated()   // anyRequest : 처리하지 못한 모든 경로, authenticated : 로그인한 사용자만 접근 가능
                 );
 
-        /*
-         *  로그인 페이지에 대한 자동 작업
-         */
-//        http
-//                .formLogin(auth -> auth
-//                        .loginPage("/member/login")    // 사용자가 URL를 멋대로 변경하여도 loginPage 설정을 해두면 Spring Security가 login 페이지로 redirect
-//                        .loginProcessingUrl("/loginProc") // ?
-//                        .permitAll()    // permitAll : 모든 사용자에게 접근
-//                );
+        http.formLogin(Customizer.withDefaults());
+
+//        http.formLogin(login -> login
+//                .loginPage("/member/login")
+//                .usernameParameter("memberId")
+//                .passwordParameter("password")
+//                .loginProcessingUrl("/")
+//                .permitAll()
+//        );
+
+        http.logout(logout -> {
+            logout.logoutUrl("/logout") // 로그아웃 요청 처리 URL 지정
+                    .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트할 URL 지정
+                    .invalidateHttpSession(true) // HTTP 세션 무효화 여부 설정
+                    .deleteCookies("JSESSIONID"); // 지정된 쿠키 삭제
+        });
 
         http
-                .logout()
-                .logoutUrl("/logout") // 로그아웃 요청 처리 URL 지정
-                .logoutSuccessUrl("/") // 로그아웃 성공 시 리다이렉트할 URL 지정
-                .invalidateHttpSession(true) // HTTP 세션 무효화 여부 설정
-                .deleteCookies("JSESSIONID"); // 지정된 쿠키 삭제
+                .csrf(AbstractHttpConfigurer::disable);
 
-        /*
-         * csrf 설정
-         * Spring Security는 post 요청시 csrf token을 서버측으로 전달해야함, csrf token disable (추후 개발 예정)
-         */
         http
-                .csrf(auth -> auth.disable());
+                .cors(AbstractHttpConfigurer::disable);
 
         return http.build();
 
     }
 
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
-        return new BCryptPasswordEncoder();
-    }
 }

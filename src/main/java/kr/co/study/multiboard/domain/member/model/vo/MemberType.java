@@ -11,7 +11,7 @@ public enum MemberType {
 //    ADMIN("ADMIN"),
 
     ROLE_ADMIN("ROLE_ADMIN"),
-    MEMBER("MEMBER");
+    ROLE_MEMBER("ROLE_MEMBER");
 
     private final String value;
 
