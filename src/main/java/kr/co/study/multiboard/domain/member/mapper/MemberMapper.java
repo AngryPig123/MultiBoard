@@ -11,5 +11,5 @@ public interface MemberMapper {
 
     void insertMember(Member member);
     boolean existsByMemberId(String memberId);
-    Optional<Member> findByMember(@Param("memberId") String memberId, @Param("password") String password);
+    Optional<Member> findByMemberId(String memberId);
 }

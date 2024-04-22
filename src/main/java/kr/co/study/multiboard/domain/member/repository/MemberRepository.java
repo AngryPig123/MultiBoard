@@ -8,5 +8,5 @@ public interface MemberRepository {
 
     void save(Member member);
     boolean existsByMemberId(String memberId);
-    Optional<Member> findByMember(String memberId, String password);
+    Optional<Member> findByMemberId(String memberId);
 }

@@ -13,7 +13,7 @@
         SELECT COUNT(*) > 0 FROM member WHERE id = #{memberId}
     </select>
 
-    <select id="findByMember" parameterType="map" resultType="kr.co.study.multiboard.domain.member.model.Member">
-        SELECT * FROM member WHERE id = #{memberId} AND password = #{password}
+    <select id="findByMemberId" parameterType="java.lang.String" resultType="kr.co.study.multiboard.domain.member.model.Member">
+        SELECT * FROM member WHERE id = #{memberId}
     </select>
 </mapper>

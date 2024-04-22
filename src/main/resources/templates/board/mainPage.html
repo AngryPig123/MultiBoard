@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>교육용 화면 리스트</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> <!-- jQuery 로드 -->
     <style type="text/css">
         html,
         body,
@@ -68,13 +69,28 @@
             border-bottom: solid 1px #dadada;
             font-size: 13px;
         }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
 <div id="guide_header_wrap">
     <div id="guide_header">
         <h1>교육용 화면 리스트</h1>
-        <p th:if="${session.memberId}">안녕하세요. <span th:text="${session.memberId}"></span> 회원님!</p>
+        <!-- 로그인 상태에 따라 다른 내용을 표시합니다. -->
+        <div th:if="${isLoggedIn}">
+            <!-- 로그인된 경우 로그아웃 버튼을 표시합니다. -->
+            <p th:if="${session.loggedInMemberId}">현재 로그인한 회원 아이디: <span th:text="${session.loggedInMemberId}"></span></p>
+            <button id="logoutBtn" class="logout-btn">로그아웃</button>
+        </div>
+        <div th:unless="${isLoggedIn}">
+            <!-- 로그인되지 않은 경우 로그인 버튼 등을 표시할 수 있습니다. -->
+            <!-- 예: <a href="/login">로그인</a> -->
+        </div>
     </div>
     <div id="guide_body">
         <div class="contents">
@@ -134,5 +150,25 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // 로그아웃 버튼 클릭 시
+        $('#logoutBtn').click(function() {
+            // AJAX 요청을 통해 로그아웃 처리
+            $.ajax({
+                url: '/logout', // 로그아웃 엔드포인트
+                type: 'POST',    // POST 방식 요청
+                success: function(response) {
+                    // 로그아웃이 성공한 경우 메인 페이지로 리다이렉트
+                    window.location.href = '/';
+                },
+                error: function(xhr, status, error) {
+                    // 오류 처리
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

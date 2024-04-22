@@ -24,7 +24,7 @@ public class MemberMyBatisRepository implements MemberRepository {
     }
 
     @Override
-    public Optional<Member> findByMember(String memberId, String password) {
-        return memberMapper.findByMember(memberId, password);
+    public Optional<Member> findByMemberId(String memberId) {
+        return memberMapper.findByMemberId(memberId);
     }
 }
